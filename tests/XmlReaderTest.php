@@ -19,7 +19,7 @@ class XmlReaderTest extends TestCase
     public function xml_read_not_supported()
     {
         $this->expectException(NotSupportedFileException::class);
-        $this->file .= '/Samples/example.xmal'; 
+        $this->file .= '/Samples/example.xmal';
         XmlReader::read($this->file);
     }
 
@@ -36,7 +36,17 @@ class XmlReaderTest extends TestCase
     {
         $this->file .= '/Samples/example.xml';
         $xml = XmlReader::read($this->file);
-        $this->assertEquals(5, $xml->get_data()->count());
+        $this->assertNotEmpty( $xml->get_data());
         $this->assertIsObject($xml);
+    }
+
+    /** @test */
+    public function xml_to_array_success()
+    {
+        $this->file .= '/Samples/example.xml';
+        $xml = XmlReader::read($this->file);
+        $xml->to_array();
+        $xml = $xml->get_data();
+        $this->assertIsArray($xml);
     }
 }
